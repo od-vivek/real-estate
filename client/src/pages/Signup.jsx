@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Link , useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Signup() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -27,19 +26,18 @@ export default function Signup() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
       if (data.success === false) {
         setError(data.message);
         setIsLoading(false);
       } else {
         setIsLoading(false);
-        setError(null); // Clear the error if the request was successful
-        // Handle success, e.g., redirect to another page
+        setError(null);
+        // Redirect to the login page after successful signup
         navigate('/login');
       }
     } catch (e) {
       setIsLoading(false);
-      setError(e.message);
+      setError('An error occurred.');
     }
   };
 
@@ -62,7 +60,7 @@ export default function Signup() {
           onChange={changeHandler}
         ></input>
         <input
-          type='text'
+          type='password'
           placeholder='password'
           className='border p-3 rounded-lg'
           id='password'
@@ -72,7 +70,7 @@ export default function Signup() {
           disabled={isLoading}
           className='bg-slate-700 text-white p-3 rounded-lg hover:opacity-95'
         >
-          {isLoading ? 'Loading...' : 'SignUp'}
+          {isLoading ? 'Loading...' : 'Sign Up'}
         </button>
       </form>
       <div className='flex gap-2 mt-2.5'>
