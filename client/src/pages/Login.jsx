@@ -40,9 +40,9 @@ export default function Login() {
       }
     } catch (e) {
       dispatch(signInFailure(e.message));
-      setError('An error occurred.');
     }
   };
+
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
