@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInFailure, signInSuccess, signInStart } from '../redux/user/UserSlice';
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+
+  const { loading, error } = useSelector((state) => state.user);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const changeHandler = (event) => {
     setFormData({
@@ -17,7 +21,7 @@ export default function Login() {
   const submitHandler = async (event) => {
     event.preventDefault();
     try {
-      setIsLoading(true);
+      dispatch(signInStart());
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -27,16 +31,15 @@ export default function Login() {
       });
       const data = await res.json();
       if (data.success === false) {
-        setError(data.message);
-        setIsLoading(false);
+        dispatch(signInFailure(data.message));
+        return;
       } else {
-        setIsLoading(false);
-        setError(null);
+        dispatch(signInSuccess(data));
         // Navigate only on successful login
         navigate('/');
       }
     } catch (e) {
-      setIsLoading(false);
+      dispatch(signInFailure(e.message));
       setError('An error occurred.');
     }
   };
@@ -60,10 +63,10 @@ export default function Login() {
           onChange={changeHandler}
         ></input>
         <button
-          disabled={isLoading}
+          disabled={loading}
           className='bg-slate-700 text-white p-3 rounded-lg hover:opacity-95'
         >
-          {isLoading ? 'Loading...' : 'Login'}
+          {loading ? 'Loading...' : 'Login'}
         </button>
       </form>
       <div className='flex gap-2 mt-2.5'>
