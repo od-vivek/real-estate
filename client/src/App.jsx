@@ -1,23 +1,27 @@
-import React from 'react'
-import {BrowserRouter , Routes , Route} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Header from './components/Header';
+import PrivateRoute from './components/PrivateRoute';
 
 export default function App() {
   return (
-      <BrowserRouter>
-      <Header></Header>
+    <BrowserRouter>
+      <Header />
       <Routes>
-        <Route path='/' element = {<Home></Home>}></Route>
-        <Route path='/login' element = {<Login></Login>}></Route>
-        <Route path='/signup' element = {<Signup></Signup>}></Route>
-        <Route path='/about' element = {<About></About>}></Route>
-        <Route path='/profile' element = {<Profile></Profile>}></Route>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/about" element={<About />} />
+        <Route
+          path="/profile"
+          element={<PrivateRoute><Profile /></PrivateRoute>}
+        />
       </Routes>
-      </BrowserRouter>
-    ) 
+    </BrowserRouter>
+  );
 }
