@@ -8,8 +8,11 @@ const initialState = {
 
 const userSlice = createSlice({
     name: 'user',
-    initialState, 
+    initialState,
     reducers: {
+        resetError: (state) => {
+            state.error = null;
+        },
         signInStart: (state) => {
             state.loading = true;
         },
@@ -22,21 +25,43 @@ const userSlice = createSlice({
             state.error = action.payload;
             state.loading = false;
         },
-        updateUserStart : (state) => {
+        updateUserStart: (state) => {
             state.loading = true;
-        } , 
-        updateUserSuccess : (state , action) => {
-            state.currentUser = action.payload ,
-            state.loading = false , 
-            state.error = null
-        } , 
-        updateUserFailure : (state , action) => {
-            state.error = action.payload , 
+        },
+        updateUserSuccess: (state, action) => {
+            state.currentUser = action.payload,
+                state.loading = false,
+                state.error = null
+        },
+        updateUserFailure: (state, action) => {
+            state.error = action.payload,
+                state.loading = false;
+        },
+        deleteUserStart: (state, action) => {
+            state.loading = true;
+        },
+        deleteUserSuccess: (state, action) => {
+            state.loading = false,
+                state.currentUser = null,
+                state.error = null
+        },
+        deleteUserFailure: (state, action) => {
+            state.error = action.payload;
             state.loading = false;
         }
     },
 });
 
-export const { signInFailure, signInStart, signInSuccess , updateUserFailure , updateUserStart , updateUserSuccess } = userSlice.actions;
+export const { signInFailure,
+    signInStart,
+    signInSuccess,
+    updateUserFailure,
+    updateUserStart,
+    updateUserSuccess,
+    deleteUserFailure,
+    deleteUserSuccess,
+    deleteUserStart,
+    resetError
+} = userSlice.actions;
 
 export default userSlice.reducer;

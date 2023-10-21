@@ -3,22 +3,31 @@ import { useSelector } from 'react-redux';
 import { useRef, useState, useEffect } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
-import { updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/UserSlice';
+import { resetError , deleteUserFailure, deleteUserStart, deleteUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/UserSlice';
 import { useDispatch } from 'react-redux';
 
 export default function Profile() {
+  useEffect(() => {
+    // Dispatch the resetError action when the component loads.
+    dispatch(resetError());
+
+    // Other code or side effects can go here.
+    // For example, you can fetch initial data or perform other actions.
+  }, []); // The empty dependency array means this effect runs only on mount.
+
+
   const fileRef = useRef(null);
-  const {currentUser , loading , error} = useSelector(state => state.user);
-  
+  const { currentUser, loading, error } = useSelector(state => state.user);
+
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
-  const [updateSuccess , setUpdateSuccess] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
   //we must be able to update all the form data , not only the image.
   const [formData, setFormData] = useState({});
-  
+
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -52,7 +61,7 @@ export default function Profile() {
 
 
   const changeHandler = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value});
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   }
 
   const submitHandler = async (event) => {
@@ -64,11 +73,11 @@ export default function Profile() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData) ,
+        body: JSON.stringify(formData),
       })
       const data = await res.json();
 
-      if(data.success === false) {
+      if (data.success === false) {
         dispatch(updateUserFailure(data.message));
         return;
       }
@@ -76,6 +85,28 @@ export default function Profile() {
       setUpdateSuccess(true);
     } catch (error) {
       dispatch(updateUserFailure(error.message));
+    }
+  }
+
+  const deleteHandler = async (event) => {
+    event.preventDefault();
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE'
+      });
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+
+      dispatch(deleteUserSuccess(data));
+
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message))
     }
   }
 
@@ -102,12 +133,12 @@ export default function Profile() {
         <input onChange={changeHandler} type='text' placeholder='username' className='border p-3 rounded-lg' id='username' defaultValue={currentUser.username}></input>
         <input onChange={changeHandler} type='email' placeholder='email' className='border p-3 rounded-lg' id='email' defaultValue={currentUser.email}></input>
         <input onChange={changeHandler} type='password' placeholder='password' className='border p-3 rounded-lg' id='password'></input>
-        <button disabled = {loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity 80'>{loading ? 'Loading..' : 'Update'}</button>
+        <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity 80'>{loading ? 'Loading..' : 'Update'}</button>
       </form>
 
       <div className='flex justify-between mt-5'>
-        <span className='text-red-700 cursor:pointer'> Delete your account </span>
-        <span className='text-red-700 cursor:pointer'> Sign Out </span>
+        <button onClick={deleteHandler} className='text-red-700 cursor:pointer'> Delete your account </button>
+        <button className='text-red-700 cursor:pointer'> Sign Out </button>
       </div>
 
       <p className='text-red-700 mt-5'>{error ? error : ''}</p>
