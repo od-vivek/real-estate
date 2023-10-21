@@ -32,3 +32,5 @@ README.md
 tailwind.config.js 
 vite.config.js
 .eslintrc.cjs
+
+firebase_rules.md
