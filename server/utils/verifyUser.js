@@ -2,7 +2,7 @@ const cookieParser = require("cookie-parser")
 const { errorHandler } = require('./error');
 const jwt = require('jsonwebtoken');
 
-module.exports = verifyToken = async (req , res , next) => {
+module.exports = verifyToken = async (req, res, next) => {
     const token = req.cookies.access_token;
 
     if (!token) {

@@ -4,7 +4,7 @@ const bcryptjs = require('bcryptjs');
 const mongoose = require('mongoose');
 
 module.exports = updateUser = async (req, res, next) => {
-    if (req.user.id == req.params.id) {
+    if (req.user.id != req.params.id) {
         return next(errorHandler(401, 'You can only change details for your own account !!'));
     }
     try {
