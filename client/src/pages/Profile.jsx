@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useRef, useState, useEffect } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
@@ -153,6 +154,7 @@ export default function Profile() {
         <input onChange={changeHandler} type='email' placeholder='email' className='border p-3 rounded-lg' id='email' defaultValue={currentUser.email}></input>
         <input onChange={changeHandler} type='password' placeholder='password' className='border p-3 rounded-lg' id='password'></input>
         <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity 80'>{loading ? 'Loading..' : 'Update'}</button>
+        <Link className='bg-green-700 text-white rounded-lg text-white p-3 rounded-lg uppercase text-center hover:opacity-95' to='/create-listing'>Create Listing</Link>
       </form>
 
       <div className='flex justify-between mt-5'>
