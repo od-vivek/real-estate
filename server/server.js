@@ -15,6 +15,7 @@ app.use(cookieParser());
 
 app.use('/api/user', require('./routes/userRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/listing' , require('./routes/listingRoutes'));
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000!');
