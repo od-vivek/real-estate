@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Listing = require('../models/Listing');
 const { errorHandler } = require("../utils/error")
 const bcryptjs = require('bcryptjs');
 const mongoose = require('mongoose');
@@ -45,5 +46,19 @@ exports.deleteUser = async (req, res, next) => {
         res.status(200).json('User deleted successfully !');
     } catch (error) {
         next(error);
+    }
+}
+
+exports.getListings = async (req, res, next) => {
+    if (req.params.id === req.user.id) {
+        try {
+            const listings = await Listing.find({ userRef: req.params.id });
+            res.status(200).json(listings);
+        }
+        catch (error) {
+            next(error);
+        }
+    } else {
+        return next(errorHandler(401, 'Unauthorized !'));
     }
 }
