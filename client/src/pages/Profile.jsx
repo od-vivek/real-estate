@@ -85,6 +85,11 @@ export default function Profile() {
       }
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
+
+      setTimeout(() => {
+        setUpdateSuccess(false);
+        setSuccessMessage('');
+      }, 1000);
     } catch (error) {
       dispatch(updateUserFailure(error.message));
     }
@@ -123,7 +128,6 @@ export default function Profile() {
         dispatch(signoutUserFailure(data.message));
         return;
       }
-
       dispatch(signoutUserSuccess());
 
     } catch (error) {
