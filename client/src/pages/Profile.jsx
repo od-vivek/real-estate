@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { getDownloadURL, getStorage, list, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
 import {
   resetError,
@@ -156,6 +156,26 @@ export default function Profile() {
     setShowListings(false);
   };
 
+  const deleteListingHandler = async (listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: 'DELETE',
+      });
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+
+      setUserListings((prev) => prev.filter((listing) => listing._id !== listingId));
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
@@ -207,7 +227,7 @@ export default function Profile() {
                   </Link>
                   <div className='flex flex-col items-center mt-2'>
                     <button className='text-green-700'>Edit</button>
-                    <button className='text-red-700'>Delete</button>
+                    <button onClick={() => deleteListingHandler(listing._id)} className='text-red-700'>Delete</button>
                   </div>
                 </div>
               ))}

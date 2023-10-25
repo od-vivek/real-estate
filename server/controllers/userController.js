@@ -5,9 +5,10 @@ const bcryptjs = require('bcryptjs');
 const mongoose = require('mongoose');
 
 exports.updateUser = async (req, res, next) => {
-    if (req.user.id != req.params.id) {
-        return next(errorHandler(401, 'You can only change details for your own account !!'));
+    if (req.user.id !== req.params.id) { // Use strict equality check !==
+        return next(errorHandler(401, 'You can only change details for your own account!'));
     }
+
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return next(errorHandler(400, 'Invalid ObjectId provided'));
@@ -24,7 +25,7 @@ exports.updateUser = async (req, res, next) => {
                 password: req.body.password,
                 avatar: req.body.avatar
             },
-        }, { new: true })
+        }, { new: true });
 
         if (!updatedUser) {
             return next(errorHandler(404, 'User not found'));
@@ -37,28 +38,26 @@ exports.updateUser = async (req, res, next) => {
 }
 
 exports.deleteUser = async (req, res, next) => {
-    if (req.user.id != req.params.id) {
-        return next(errorHandler(401, 'You can only delete your own account !'))
+    if (req.user.id !== req.params.id) { // Use strict equality check !==
+        return next(errorHandler(401, 'You can only delete your own account!'))
     }
     try {
         await User.findByIdAndDelete(req.params.id);
         res.clearCookie('access_token');
-        res.status(200).json('User deleted successfully !');
+        res.status(200).json('User deleted successfully!');
     } catch (error) {
         next(error);
     }
 }
 
 exports.getListings = async (req, res, next) => {
-    if (req.params.id === req.user.id) {
-        try {
-            const listings = await Listing.find({ userRef: req.params.id });
-            res.status(200).json(listings);
-        }
-        catch (error) {
-            next(error);
-        }
-    } else {
-        return next(errorHandler(401, 'Unauthorized !'));
+    if (req.user.id !== req.params.id) { // Use strict equality check !==
+        return next(errorHandler(401, 'Unauthorized!'));
+    }
+    try {
+        const listings = await Listing.find({ userRef: req.params.id });
+        res.status(200).json(listings);
+    } catch (error) {
+        next(error);
     }
 }

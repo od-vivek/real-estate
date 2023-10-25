@@ -43,16 +43,15 @@ exports.postLogin = async (req, res, next) => {
 
 exports.google = async (req, res, next) => {
     try {
-        const user = await User.findOne({ email: req.body.email })
-        //wether he is already a user or creating for first time . Have to handle both here .
+        const user = await User.findOne({ email: req.body.email });
+
         if (user) {
-            //regiser 
+            // User exists, generate and send a token
             const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
             const { password: pass, ...rest } = user._doc;
-            res.cookie('access_token', token, { httpOnly: true })
-                .status(200)
-                .json(rest);
+            res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
         } else {
+            // User doesn't exist, create a new user and send a token
             const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
             const hashedPassword = bcrypt.hashSync(generatePassword, 10);
 
@@ -60,20 +59,20 @@ exports.google = async (req, res, next) => {
                 username: req.body.name.split(" ").join("").toLowerCase() + Math.random().toString(36).slice(-8),
                 email: req.body.email,
                 password: hashedPassword,
-                avatar: req.body.photo
-            })
+                avatar: req.body.photo,
+            });
 
             await newUser.save();
 
-            const token = jwt.sign({ id: newUser._id, }, process.env.JWT_SECRET);
+            const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
             const { password: pass, ...rest } = newUser._doc;
-            res.cookie('access-token', token, { httpOnly: true }).status(200).json(rest);
+            res.cookie('access_token', token, { httpOnly: true }).status(200).json(rest);
         }
+    } catch (err) {
+        next(err);
     }
-    catch (err) {
-        next(err)
-    }
-}
+};
+
 
 exports.getSignout = async (req, res, next) => {
     try {
