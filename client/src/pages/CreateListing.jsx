@@ -48,11 +48,11 @@ export default function CreateListing() {
                     setUploading(false);
                 })
                 .catch((error) => {
-                    setImageUploadError('Image Upload failed! 2MB max per image');
+                    setImageUploadError('Image Upload failed! 5MB max per image');
                     setUploading(false);
                 });
         } else if (files.length <= 0) {
-            setImageUploadError('Please upload at least 1 image');
+            setImageUploadError('Please choose at least 1 image');
             setUploading(false);
         } else {
             setImageUploadError('You can only upload 6 images per listing!');
