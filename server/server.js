@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const app = express();
 const cors = require('cors');
+var cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 
 app.use(cors({
     origin:["http://localhost:3000", "https://gregarious-raindrop-091940.netlify.app"],
@@ -11,7 +13,6 @@ app.use(cors({
 }))
 app.use(cookieParser());
 
-const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
