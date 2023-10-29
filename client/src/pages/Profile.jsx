@@ -70,7 +70,7 @@ export default function Profile() {
     event.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`https://urban-utopia.onrender.com/api/user/update/${currentUser._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ export default function Profile() {
     event.preventDefault();
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+      const res = await fetch(`https://urban-utopia.onrender.com/api/user/delete/${currentUser._id}`, {
         method: 'DELETE'
       });
 
@@ -121,7 +121,7 @@ export default function Profile() {
     try {
       dispatch(signoutUserStart());
 
-      const res = await fetch('/api/auth/signout');
+      const res = await fetch('https://urban-utopia.onrender.com/api/auth/signout');
       const data = await res.json();
 
       if (data.success === false) {
@@ -140,7 +140,7 @@ export default function Profile() {
     setShowListings(true);
     try {
       setShowListingsError(false);
-      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const res = await fetch(`https://urban-utopia.onrender.com/api/user/listings/${currentUser._id}`);
       const data = await res.json();
       if (data.success === false) {
         setShowListingsError(true);
@@ -158,7 +158,7 @@ export default function Profile() {
 
   const deleteListingHandler = async (listingId) => {
     try {
-      const res = await fetch(`/api/listing/delete/${listingId}`, {
+      const res = await fetch(`https://urban-utopia.onrender.com/api/listing/delete/${listingId}`, {
         method: 'DELETE',
       });
 

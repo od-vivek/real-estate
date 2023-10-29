@@ -117,7 +117,7 @@ export default function CreateListing() {
             setLoading(true); // Set loading state to true
             setError(false);
 
-            const res = await fetch('/api/listing/create', {
+            const res = await fetch('https://urban-utopia.onrender.com/api/listing/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -19,7 +19,7 @@ export default function Signup() {
     event.preventDefault();
     try {
       setIsLoading(true);
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch('https://urban-utopia.onrender.com/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

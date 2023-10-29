@@ -23,7 +23,7 @@ export default function Login() {
     event.preventDefault();
     try {
       dispatch(signInStart());
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch('https://urban-utopia.onrender.com/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

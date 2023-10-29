@@ -17,7 +17,7 @@ export default function OAuth() {
 
             const result = await signInWithPopup(auth, provider); // Sign in with Google using the authentication instance and the GoogleAuthProvider
             // console.log(result);
-            const res = await fetch('/api/auth/google', {
+            const res = await fetch('https://urban-utopia.onrender.com/api/auth/google', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
