@@ -24,13 +24,4 @@ dist-ssr
 *.sln
 *.sw?
 
-package-lock.json
-package.json
-postcss.config.js 
-
-README.md 
-tailwind.config.js 
-vite.config.js
-.eslintrc.cjs
-
 firebase_rules.md
