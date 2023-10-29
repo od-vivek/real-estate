@@ -2,6 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const app = express();
+
+app.use(cors({
+    origin:["http://localhost:3000", "https://gregarious-raindrop-091940.netlify.app"],
+    methods:['POST','GET','HEAD','PUT','DELETE'],
+    credentials: true
+}))
+app.use(cookieParser());
+
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
