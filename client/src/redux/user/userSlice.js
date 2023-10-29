@@ -78,5 +78,5 @@ export const { signInFailure,
     signoutUserStart,
     resetError
 } = userSlice.actions;
-
+/**this is minor change */
 export default userSlice.reducer;
