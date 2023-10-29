@@ -61,7 +61,7 @@ export default function Home() {
           We have a wide range of properties for you to choose from.
         </div>
         <Link
-          to={'/search'}
+          to={'/sign-up'}
           className='text-xs sm:text-sm text-blue-800 font-bold hover:underline'
         >
           Let's get started...
