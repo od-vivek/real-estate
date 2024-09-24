@@ -57,10 +57,6 @@ exports.deleteUser = async (req, res, next) => {
 };
 
 exports.getListings = async (req, res, next) => {
-    if (req.user.id !== req.params.id) {
-        return next(errorHandler(401, 'Unauthorized'));
-    }
-
     try {
         const listings = await Listing.find({ userRef: req.params.id });
         res.status(200).json(listings);
