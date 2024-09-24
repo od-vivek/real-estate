@@ -3,9 +3,9 @@ const verifyUser = require('../utils/verifyUser');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
-router.post('/update/:id', verifyUser, userController.updateUser);
-router.delete('/delete/:id', verifyUser, userController.deleteUser);
-router.get('/listings/:id', verifyUser, userController.getListings);
-router.get('/:id', verifyUser, userController.getPublicUser);
+router.post('/update/:id', userController.updateUser);
+router.delete('/delete/:id',  userController.deleteUser);
+router.get('/listings/:id',  userController.getListings);
+router.get('/:id', userController.getPublicUser);
 
 module.exports = router;
