@@ -112,6 +112,7 @@ export default function CreateListing() {
     const submitHandler = async (event) => {
         event.preventDefault();
         try {
+            imageUrls = ['https://sample-videos.com/img/Sample-png-image-100kb.png'];
             if (formData.imageUrls.length < 1) return setError('You must upload at least 1 image of the listing!');
             if (+formData.regularPrice < +formData.discountPrice) return setError('Discounted price must be less than the regular price!');
             setLoading(true); // Set loading state to true
